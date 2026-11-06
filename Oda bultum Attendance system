@@ -1,0 +1,145 @@
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+// 1. Class Barataa (Student Class - Encapsulation)
+class Student {
+    private String id;
+    private String name;
+    private String department;
+
+    // Constructor
+    public Student(String id, String name, String department) {
+        this.id = id;
+        this.name = name;
+        this.department = department;
+    }
+
+    // Getters
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    // Method odeeffannoo agarsiisuuf
+    public void displayStudent() {
+        System.out.println("ID: " + id + " | Maqaa: " + name + " | Damee (Dept): " + department);
+    }
+}
+
+// 2. Class Galmee Hordofii (AttendanceRecord Class)
+class AttendanceRecord {
+    private String studentId;
+    private String studentName;
+    private String date;
+    private String status; // Present (Argame) ykn Absent (Hin jirre)
+
+    public AttendanceRecord(String studentId, String studentName, String date, String status) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.date = date;
+        this.status = status;
+    }
+
+    // Method gabaasa hordofii agarsiisuuf
+    public void displayRecord() {
+        System.out.println("Guyyaa: " + date + " | ID: " + studentId + " | Maqaa: " + studentName + " | Haala: " + status);
+    }
+}
+
+// 3. Main System Class
+public class OdaBultumAttendanceSystem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Student> students = new ArrayList<>();
+        ArrayList<AttendanceRecord> attendanceRecords = new ArrayList<>();
+
+        // Odeeffannoo jalqabaa (Sample Data)
+        students.add(new Student("OBU/001/12", "Obse Dhuggaa", "Computer Science"));
+        students.add(new Student("OBU/002/12", "Gadaa Tasfaayee", "Software Engineering"));
+
+        while (true) {
+            System.out.println("\n--- Oda Bultum University Attendance System ---");
+            System.out.println("1. Barataa Haaraa Galchuu (Add Student)");
+            System.out.println("2. Barattoota Hunda Agarsiisi (View Students)");
+            System.out.println("3. Hordofii Galchuu (Take Attendance)");
+            System.out.println("4. Gabaasa Hordofii Ilaaluu (View Attendance Report)");
+            System.out.println("5. Baahuu (Exit)");
+            System.out.print("Filannoo kee filadhu (1-5): ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // newline consume gochuuf
+
+            switch (choice) {
+                case 1:
+                    System.out.print("ID Barataa (fkn. OBU/003/12): ");
+                    String id = scanner.nextLine();
+                    System.out.print("Maqaa Barataa: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Damee (Department): ");
+                    String dept = scanner.nextLine();
+                    
+                    students.add(new Student(id, name, dept));
+                    System.out.println(">>> Barataan milkaa'inaan galmeeffameera!");
+                    break;
+
+                case 2:
+                    System.out.println("\n--- Tarree Barattoota OBU ---");
+                    if (students.isEmpty()) {
+                        System.out.println("Barataan galmaa'e hin jiru.");
+                    } else {
+                        for (Student s : students) {
+                            s.displayStudent();
+                        }
+                    }
+                    break;
+
+                case 3:
+                    if (students.isEmpty()) {
+                        System.out.println("Dursee barattoota galchi (Filannoo 1 fayyadami)!");
+                        break;
+                    }
+                    System.out.print("Guyyaa har'aa galchi (fkn. 2026-06-07): ");
+                    String date = scanner.nextLine();
+
+System.out.println("\n--- Hordofii Fudhachaa Jira ---");
+                    for (Student s : students) {
+                        System.out.print("Barataa " + s.getName() + " (" + s.getId() + ") argameeraa? [1: Eeyyee/Present, 2: Hin jiru/Absent]: ");
+                        int statusChoice = scanner.nextInt();
+                        scanner.nextLine();
+                        
+                        String status = (statusChoice == 1) ? "Present (Argameera)" : "Absent (Hin jiru)";
+                        attendanceRecords.add(new AttendanceRecord(s.getId(), s.getName(), date, status));
+                    }
+                    System.out.println(">>> Galmi hordofii milkaa'inaan kuufameera!");
+                    break;
+
+                case 4:
+                    System.out.println("\n--- Gabaasa Hordofii Argamuu (Attendance Report) ---");
+                    if (attendanceRecords.isEmpty()) {
+                        System.out.println("Galmeen hordofii ammaaf hin jiru.");
+                    } else {
+                        for (AttendanceRecord ar : attendanceRecords) {
+                            ar.displayRecord();
+                        }
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Galatoomaa! Pirojektiin cufameera.");
+                    scanner.close();
+                    System.exit(0);
+
+                default:
+                    System.out.println("Filannoo sirrii miti, irra deebi'ii yaali!");
+            }
+        }
+    }
+}
